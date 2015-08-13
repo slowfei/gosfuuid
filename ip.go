@@ -1,27 +1,38 @@
-//	Copyright 2013 slowfei And The Contributors All rights reserved.
+//	Copyright 2013-2015 slowfei And The Contributors All rights reserved.
+//
 //	Software Source Code License Agreement (BSD License)
+//
+//  Create on 2013-08-31
+//  Update on 2015-08-14
+//  Email  slowfei@nnyxing.com
+//  Home   http://www.slowfei.com
+//
 
-//	UUID Version 1 Variant 通过计算当前时间戳、随机数和本机IP(外网)地址得到uuid
-//	考虑到无法链接物联网时获取不了外网的问题，则使panic()爆出异常。
-//	由version 1进行变种
-//
-//	email		slowfei@foxmail.com
-//	createTime 	2013-8-31
-//	updateTime	2013-9-28
-//
+/***IP UUID Version 1 Variant
+　　通过计算当前时间戳、随机数和本机IP(外网)地址得到uuid<br/>
+考虑到无法链接物联网时获取不了外网的问题，则使panic()爆出异常。<br/>
+由version 1进行变种<br/>
+
+Reference Implementation https://code.google.com/p/go-uuid/
+
+*/
+
+// IP UUID Version 1 Variant
 package SFUUID
 
 import (
 	"encoding/binary"
+	// "fmt"
 	"github.com/slowfei/gosfcore/utils/rand"
 	"io/ioutil"
 	"net"
 	"net/http"
+	"strings"
 )
 
 const (
 	//	默认获取网络IP数据的URL
-	UUID_URL_IP_API = "http://api.externalip.net/ip/"
+	UUID_URL_IP_API = "http://ipinfo.io/ip"
 )
 
 var (
@@ -35,7 +46,7 @@ func newIPUUID() UUID {
 	}
 
 	//	时间戳
-	now := getTimestamp()
+	now, clockSeq := getTimestamp()
 
 	uuid := make([]byte, 16)
 
@@ -54,7 +65,7 @@ func newIPUUID() UUID {
 	binary.BigEndian.PutUint32(uuid[0:], time_low)
 	binary.BigEndian.PutUint16(uuid[4:], time_mid)
 	binary.BigEndian.PutUint16(uuid[6:], time_hi)
-	binary.BigEndian.PutUint16(uuid[8:], _clock_seq)
+	binary.BigEndian.PutUint16(uuid[8:], clockSeq)
 	uuid[8] = (uuid[8] & 0x3f) | 0x10 // clear and set to set to variant is 10
 
 	copy(uuid[10:], _ipNodeId)
@@ -75,6 +86,7 @@ func SetIPNodeId(ip net.IP) {
 //				传递("")则使用默认 UUID_URL_IP_API
 //
 func SetNetwordIP(urlIPApi string) {
+	//	TODO 考虑是否加锁， 由于IP UUID现在很少使用，目前暂时不修改。
 
 	if nil == _ipNodeId {
 		_ipNodeId = make([]byte, 6)
@@ -83,7 +95,7 @@ func SetNetwordIP(urlIPApi string) {
 	SFRandUtil.RandBits(_ipNodeId)
 
 	var url string
-	if "" != urlIPApi {
+	if 0 != len(urlIPApi) {
 		url = urlIPApi
 	} else {
 		url = UUID_URL_IP_API
@@ -95,7 +107,7 @@ func SetNetwordIP(urlIPApi string) {
 		defer res.Body.Close()
 
 		if data, err := ioutil.ReadAll(res.Body); err == nil {
-			ip := net.ParseIP(string(data))
+			ip := net.ParseIP(strings.Trim(string(data), " \n"))
 			if nil != ip && nil != ip.To4() {
 				copy(_ipNodeId, []byte(ip.To4()))
 				isPanic = false

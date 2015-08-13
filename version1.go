@@ -1,14 +1,20 @@
-//	Copyright 2013 slowfei And The Contributors All rights reserved.
+//	Copyright 2013-2015 slowfei And The Contributors All rights reserved.
+//
 //	Software Source Code License Agreement (BSD License)
+//
+//  Create on 2013-08-31
+//  Update on 2015-08-14
+//  Email  slowfei@nnyxing.com
+//  Home   http://www.slowfei.com
+//
 
-//	UUID Version 1 通过计算当前时间戳、随机数和机器MAC地址得到uuid
-//	Reference Implementation https://code.google.com/p/go-uuid/
-//
-//	copyright 2013 slowfei
-//	email		slowfei@foxmail.com
-//	createTime 	2013-8-31
-//	updateTime	2013-9-28
-//
+/***UUID Version 1
+　　通过计算当前时间戳、随机数和机器MAC地址得到uuid
+<br/>
+Reference Implementation https://code.google.com/p/go-uuid/
+*/
+
+//	UUID Version 1
 package SFUUID
 
 import (
@@ -48,7 +54,7 @@ func newVersion1() UUID {
 //	@nodeId	自定义网络节点标识
 func newVersion1ByNodeID(nodeId []byte) UUID {
 	//	时间戳
-	now := getTimestamp()
+	now, clockSeq := getTimestamp()
 
 	uuid := make([]byte, 16)
 
@@ -67,7 +73,7 @@ func newVersion1ByNodeID(nodeId []byte) UUID {
 	binary.BigEndian.PutUint32(uuid[0:], time_low)
 	binary.BigEndian.PutUint16(uuid[4:], time_mid)
 	binary.BigEndian.PutUint16(uuid[6:], time_hi)
-	binary.BigEndian.PutUint16(uuid[8:], _clock_seq)
+	binary.BigEndian.PutUint16(uuid[8:], clockSeq)
 	if nil != nodeId {
 		if len(nodeId) >= 6 {
 			copy(uuid[10:], nodeId)
@@ -82,7 +88,7 @@ func newVersion1ByNodeID(nodeId []byte) UUID {
 }
 
 //	获取时间戳
-func getTimestamp() int64 {
+func getTimestamp() (int64, uint16) {
 	//	连续生成两个UUID的时间至少要间隔100ns. 考虑到并发的问题可能会出现相同的时间戳，使用锁来控制。
 	_rwmutex.RLock()
 	defer _rwmutex.RUnlock()
@@ -101,7 +107,7 @@ func getTimestamp() int64 {
 	}
 	_lasttime = now
 
-	return int64(now)
+	return int64(now), _clock_seq
 }
 
 func ClockSequence() int {
