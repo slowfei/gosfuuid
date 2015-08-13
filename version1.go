@@ -6,7 +6,6 @@
 //  Update on 2015-08-14
 //  Email  slowfei@nnyxing.com
 //  Home   http://www.slowfei.com
-//
 
 /***UUID Version 1
 　　通过计算当前时间戳、随机数和机器MAC地址得到uuid

@@ -6,7 +6,6 @@
 //  Update on 2015-08-14
 //  Email  slowfei@nnyxing.com
 //  Home   http://www.slowfei.com
-//
 
 /***IP UUID Version 1 Variant
 　　通过计算当前时间戳、随机数和本机IP(外网)地址得到uuid<br/>

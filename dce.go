@@ -1,15 +1,19 @@
-//	Copyright 2013 slowfei And The Contributors All rights reserved.
+//	Copyright 2013-2015 slowfei And The Contributors All rights reserved.
 //
 //	Software Source Code License Agreement (BSD License)
+//
+//  Create on 2013-08-31
+//  Update on 2015-08-14
+//  Email  slowfei@nnyxing.com
+//  Home   http://www.slowfei.com
 
-//	UUID Version 2 DCE 1.1（Distributed Computing Environment）uuid
-//
-//	Reference Implementation
-//
-//	email		slowfei@foxmail.com
-//	createTime 	2013-8-31
-//	updateTime	2013-9-28
-//
+/***UUID Version 2 DCE 1.1
+　　（Distributed Computing Environment）uuid
+<br/>
+Reference Implementation https://code.google.com/p/go-uuid/
+*/
+
+// UUID Version 2 DCE 1.1
 package SFUUID
 
 import (

@@ -1,13 +1,19 @@
-//	Copyright 2013 slowfei And The Contributors All rights reserved.
-//	Software Source Code License Agreement (BSD License)
+//  Copyright 2013-2015 slowfei And The Contributors All rights reserved.
+//
+//  Software Source Code License Agreement (BSD License)
+//
+//  Create on 2013-08-30
+//  Update on 2015-08-14
+//  Email  slowfei@nnyxing.com
+//  Home   http://www.slowfei.com
 
-//	Universal Unique IDentifier
-//	Reference Implementation https://code.google.com/p/go-uuid/
-//
-//	email		slowfei@foxmail.com
-//	createTime 	2013-8-30
-//	updateTime	2013-9-28
-//
+/***Universal Unique IDentifier
+　　Universal Unique IDentifier
+<br/>
+Reference Implementation https://code.google.com/p/go-uuid/
+*/
+
+//Universal Unique IDentifier
 package SFUUID
 
 import (

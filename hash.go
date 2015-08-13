@@ -1,13 +1,19 @@
-//	Copyright 2013 slowfei And The Contributors All rights reserved.
+//	Copyright 2013-2015 slowfei And The Contributors All rights reserved.
+//
 //	Software Source Code License Agreement (BSD License)
+//
+//  Create on 2013-09-02
+//  Update on 2015-08-14
+//  Email  slowfei@nnyxing.com
+//  Home   http://www.slowfei.com
 
-//	UUID Version 3(md5) and Version 5(sha1) uuid
-//	Reference Implementation https://code.google.com/p/go-uuid/
-//
-//	email		slowfei@foxmail.com
-//	createTime 	2013-9-2
-//	updateTime	2013-9-28
-//
+/***UUID Version 3\5
+　　UUID Version 3(md5) and Version 5(sha1)
+<br/>
+Reference Implementation https://code.google.com/p/go-uuid/
+*/
+
+// UUID Version 3\5
 package SFUUID
 
 import (
