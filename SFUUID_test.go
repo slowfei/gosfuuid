@@ -12,7 +12,7 @@ import (
 func TestRandomUUID(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
-		uuid := NewRandomUUID()
+		uuid := NewUUID()
 		fmt.Println(uuid.String())
 		fmt.Println(uuid.Base64())
 		fmt.Println(uuid.Base64Byte())
@@ -50,7 +50,7 @@ func TestVersion1UUID(t *testing.T) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	testU := func(tag string, c chan bool) {
 		for i := 0; i < 5; i++ {
-			uuid1 := NewUUID()
+			uuid1 := NewMacUUID()
 			fmt.Println("version:", tag, "- ", uuid1.String())
 			t, _ := uuid1.Time()
 			fmt.Println("version-time:", t)

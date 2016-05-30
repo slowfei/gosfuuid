@@ -3,7 +3,7 @@
 //  Software Source Code License Agreement (BSD License)
 //
 //  Create on 2013-08-30
-//  Update on 2015-08-14
+//  Update on 2015-10-05
 //  Email  slowfei@nnyxing.com
 //  Home   http://www.slowfei.com
 
@@ -36,9 +36,9 @@ var (
 //	Universal Unique IDentifier is 128 bit (16 byte)
 type UUID []byte
 
-//	version 1 new uuid
+//	use version 4 new random uuid
 func NewUUID() UUID {
-	return newVersion1()
+	return newRandomUUID()
 }
 
 //	version 1 variant node id use public ip
@@ -61,9 +61,12 @@ func NewMD5(space UUID, data []byte) UUID {
 	return newHash(md5.New(), space, data, 3)
 }
 
-//	version 4 new random uuid
-func NewRandomUUID() UUID {
-	return newRandomUUID()
+/**
+ *	version 1 new uuid, end 6 bit use mac address,
+ *	mac address unable to get will use random
+ */
+func NewMacUUID() UUID {
+	return newVersion1()
 }
 
 //	version 5 new sha1 uuid
